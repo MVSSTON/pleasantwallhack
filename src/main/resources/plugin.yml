@@ -1,0 +1,7 @@
+name: PleasantWallHack
+version: 1.0b
+main: me.mstn.plugin.PleasantWallHack
+depend: [ProtocolLib]
+authors: [Masston]
+description: Подсветка игроков в радиусе определённого количества блоков. Хорошее дополнение к Anarchy серверу!
+website: https://vk.me/masston

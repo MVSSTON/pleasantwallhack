@@ -1,0 +1,14 @@
+settings:
+  radius: 10 # Радиус действия (в блоках)
+  time: 10 # Время действия (в секундах)
+  check-disabled-worlds: true # Проверять находится ли мир в списке заблокированных (disabled-worlds)
+  cooldown-time: 30 # Кд команды (в секундах)
+  cooldown-enabled: true # Выдавать кд тем, у кого нет права pleasantwallhack.bypass
+messages:
+  permission-required: '&aPleasantWallHack &8| &fУ вас нет прав для выполнения этой команды!'
+  world-disabled: '&aPleasantWallHack &8| &fВ этом мире подсветка отключена'
+  glow-enabled: '&aPleasantWallHack &8| &fПодсвечены все игроки в радиусе &a{radius} блоков&f на &a{time} сек.'
+  nearby-players-empty: '&aPleasantWallHack &8| &fРядом с вами нет игроков.'
+  cooldown: '&aPleasantWallHack &8| &fПодождите &a{time} сек.&f до следующего использования команды'
+disabled-worlds:
+  - 'world_nether'
