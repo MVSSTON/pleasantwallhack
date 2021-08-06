@@ -6,7 +6,7 @@
 
     <groupId>me.mstn</groupId>
     <artifactId>PleasantWallHack</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0b</version>
     <packaging>jar</packaging>
 
     <name>PleasantWallHack</name>
