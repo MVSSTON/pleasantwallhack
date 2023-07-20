@@ -19,7 +19,7 @@ Highlight all players within a radius of R-blocks for N-seconds, giving them a g
 ## Requirements
 
 1. Server version must be at least 1.9
-2. ProtocolLib
+2. [ProtocolLib](https://github.com/dmulloy2/ProtocolLib)
 
 ## Permisssions
 
