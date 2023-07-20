@@ -1,18 +1,20 @@
+<img align="right" alt="logo" width="64" src="https://emojio.ru/images/apple-m/1f527.png">
+
 # PleasantWallHack
 Absolutely free!
-***
+
 ## What is it?
-The essence of the plugin is to highlight all players within a radius of R-blocks for N-seconds, giving them a glow effect that is visible only to the team's executor. Not a bad solution for a variety of Grief/Anarchy servers.
 
-## Demo
-[▶️ See Imgur GIF / How plugin works (RU)](https://imgur.com/SGtILzr)
+Highlight all players within a radius of R-blocks for N-seconds, giving them a glow effect that is visible only to command executor. Good solution for Grief/Anarchy servers.
 
-[▶️ See Imgur PNG / Configuration Example (RU)](https://imgur.com/aFZYhSj)
+:warning: *Tested on MC 1.12.2 & 1.16.5*
 
 ## Features
-1. Display highlighting for only ONE player (other players is highlighting is not see)
-2. Setting the delay for using the command (cooldown)
-3. Block the use of WallHack in certain worlds
+
+- Display highlighting for only ONE player (other players is not seen highlighting)
+- Setting the delay for using the command
+- Block the use of WallHack in certain worlds
+- [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI) support (Additional)
 
 ## Requirements
 
@@ -24,10 +26,13 @@ The essence of the plugin is to highlight all players within a radius of R-block
 1. pleasantwallhack.use - Allows the player to use the /wallhack command to highlight
 2. pleasantwallhack.bypass - Allows the player to use the command indefinitely without a cooldown.
 
-## Author
-[▶️ VK](https://vk.com/masston)
+## Demo
 
-[▶️ Telegram](https://t.me/masston)
+[:arrow_forward: How works (Video)](https://i.imgur.com/LDfOypJ.mp4)
+
+:wrench: Configuration screenshot:
+
+![Configuration](https://i.imgur.com/odpZFiy.png)
 
 ***
-#### All rights reserved, use for non-commercial purposes only &copy; 2021-2022
+#### All rights reserved, use for non-commercial purposes only &copy; 2021-2023

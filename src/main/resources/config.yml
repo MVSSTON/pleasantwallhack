@@ -1,14 +1,21 @@
-settings:
-  radius: 10 # Radius (blocks)
-  time: 10 # Time (seconds)
-  check-disabled-worlds: true # Check if world in BlackList (disabled-worlds)
-  cooldown-time: 30 # CoolDown (seconds)
-  cooldown-enabled: true # Issue CoolDown to those who do not have the right pleasantwallhack.bypass
-messages:
-  permission-required: '&aPleasantWallHack &8| &fYou do not have permission to perform this'
-  world-disabled: '&aPleasantWallHack &8| &fWallHack disabled in this world'
-  glow-enabled: '&aPleasantWallHack &8| &fHighlighted all players within the radius &a{radius} blocks&f for &a{time} sec.'
-  nearby-players-empty: '&aPleasantWallHack &8| &fThere are no players near you.'
-  cooldown: '&aPleasantWallHack &8| &fWait &a{time} sec. &funtil the next use of the command' 
-disabled-worlds:
+Settings:
+  Radius: 10 # Radius (in blocks)
+  Time: 10 # Time (in seconds)
+  Check Blocked Worlds: true # Check if world in black list
+  CoolDown:
+    Enabled: true # Issue CoolDown to those who do not have the right pleasantwallhack.bypass
+    Time: 30 # CoolDown (in seconds)
+Messages: # PlaceholderAPI Support
+  Permission Required:
+    - '&aPleasantWallHack &8| &c&lHey!'
+    - '&aPleasantWallHack &8| &fYou do not have permission to perform this'
+  World Blocked:
+    - '&aPleasantWallHack &8| &fWallHack blocked in this world'
+  Glowed:
+    - '&aPleasantWallHack &8| &fHighlighted all players within the radius &a%radius blocks&f for &a%time sec.'
+  Empty:
+    - '&aPleasantWallHack &8| &fThere are no players near you.'
+  CoolDown:
+    - '&aPleasantWallHack &8| &fWait &a%time sec. &funtil the next use of the command'
+Blocked Worlds:
   - 'world_nether'

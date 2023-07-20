@@ -1,35 +1,21 @@
 package me.mstn.plugin;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import lombok.Getter;
-import lombok.Setter;
-import me.mstn.api.MasstonAPI;
-import me.mstn.api.command.ICommandManager;
-import me.mstn.api.command.imp.CommandManager;
-import me.mstn.api.nms.Version;
 import me.mstn.plugin.command.WallHackCommand;
+import me.mstn.plugin.utilities.BukkitVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PleasantWallHack extends JavaPlugin {
 
-    @Getter @Setter private static MasstonAPI masstonAPI;
-    @Getter @Setter private static PleasantWallHack instance;
+    private static PleasantWallHack instance;
 
-    @Getter @Setter private static ConfigurationData configurationData;
-
-    public void onLoad() {
-        setMasstonAPI(new MasstonAPI());
-
-        ICommandManager commandManager = new CommandManager(this);
-        masstonAPI.setCommandManager(commandManager);
-        masstonAPI.getServiceManager()
-                  .add(ICommandManager.class, commandManager);
-    }
+    private boolean placeholderApiSupported;
 
     public void onEnable() {
-        int currentVersion = Version.getCurrent().getId();
-        int minimalVersion = Version.v1_9_R1.getId();
+        instance = this;
+
+        int currentVersion = BukkitVersion.getCurrent().getId();
+        int minimalVersion = BukkitVersion.v1_9_R1.getId();
 
         if (currentVersion < minimalVersion) {
             getLogger().severe("!!! Plugin does not work on versions below 1.9 !!!");
@@ -38,19 +24,25 @@ public final class PleasantWallHack extends JavaPlugin {
             return;
         }
 
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            placeholderApiSupported = true;
+        }
+
         saveDefaultConfig();
 
-        setConfigurationData(new ConfigurationData(getConfig()));
-        setInstance(this);
-
-        masstonAPI.setProtocolManager(ProtocolLibrary.getProtocolManager());
-        masstonAPI.getServiceManager()
-                  .getService(ICommandManager.class)
-                  .registerCommand(new WallHackCommand());
+        getCommand("pleasantwallhack").setExecutor(new WallHackCommand(this));
     }
 
     public void onDisable() {
 
+    }
+
+    public boolean isPlaceholderApiSupported() {
+        return placeholderApiSupported;
+    }
+
+    public static PleasantWallHack getInstance() {
+        return instance;
     }
 
 }

@@ -1,80 +1,98 @@
 package me.mstn.plugin.command;
 
-import me.mstn.api.command.AbstractCommand;
-import me.mstn.api.common.Cooldown;
-import me.mstn.plugin.ConfigurationData;
 import me.mstn.plugin.PleasantWallHack;
-import me.mstn.plugin.protocol.GlowPacketManipulator;
-import org.bukkit.ChatColor;
+import me.mstn.plugin.protocol.GlowHandler;
+import me.mstn.plugin.utilities.ConfigurationUtility;
+import me.mstn.plugin.utilities.CoolDown;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
-public class WallHackCommand extends AbstractCommand {
+import java.util.List;
 
-    public WallHackCommand() {
-        super("pleasantwallhack", "pwh", "wh", "wallhack", "вх");
+public class WallHackCommand implements CommandExecutor {
+
+    private final ConfigurationSection messagesSection;
+    private final ConfigurationSection settingsSection;
+
+    private final List<String> blockedWorlds;
+
+    public WallHackCommand(Plugin plugin) {
+        Configuration configuration = plugin.getConfig();
+
+        messagesSection = configuration.getConfigurationSection("Messages");
+        settingsSection = configuration.getConfigurationSection("Settings");
+
+        blockedWorlds = ConfigurationUtility.getStringListOrEmpty(configuration, "Blocked Worlds");
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            ConfigurationData configurationData = PleasantWallHack.getConfigurationData();
-
-            if (player.hasPermission("pleasantwallhack.use") || player.hasPermission("*")) {
-                if (configurationData.isCheckWorlds() && configurationData.getDisabledWorlds().contains(player.getWorld().getName())) {
-                    player.sendMessage(
-                            ChatColor.translateAlternateColorCodes('&', configurationData.getWorldDisabledMessage())
-                    );
-
-                    return;
-                }
-
-                if (!Cooldown.hasCooldown(player.getName(), "wallhack-use")) {
-                    int radius = configurationData.getRadius();
-                    int time = configurationData.getTime();
-
-                    GlowPacketManipulator.glowPlayersAroundPlayer(player, radius, time, isPlayersNearby -> {
-                        if (isPlayersNearby) {
-                            player.sendMessage(
-                                    ChatColor.translateAlternateColorCodes('&',
-                                            configurationData.getGlowEnabledMessage()
-                                                    .replace("{radius}", String.valueOf(radius))
-                                                    .replace("{time}", String.valueOf(time))
-                                    )
-                            );
-
-                            return;
-                        }
-
-                        player.sendMessage(
-                                ChatColor.translateAlternateColorCodes('&', configurationData.getNearbyPlayersEmptyMessage())
-                        );
-                    });
-
-                    if (configurationData.isCooldownEnabled() && !player.hasPermission("pleasantwallhack.bypass")) Cooldown.addCooldown(player.getName(), "wallhack-use", 20L * configurationData.getCooldownTime());
-
-                    return;
-                }
-
-                player.sendMessage(
-                        ChatColor.translateAlternateColorCodes('&',
-                                configurationData.getCooldownMessage()
-                                        .replace("{time}", String.valueOf(Cooldown.getSecondCooldown(player.getName(), "wallhack-use")))
-                        )
-                );
-
-                return;
-            }
-
-            player.sendMessage(
-                    ChatColor.translateAlternateColorCodes('&', configurationData.getPermissionRequiredMessage())
-            );
-
-            return;
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (!(commandSender instanceof Player)) {
+            return false;
         }
 
-        sender.sendMessage(ChatColor.RED + "Command only for players!");
+        Player player = (Player) commandSender;
+
+        if (!player.hasPermission("pleasantwallhack.use")) {
+            sendConfigurationMessage(player, "Permission Required");
+
+            return false;
+        }
+
+        if (ConfigurationUtility.getBooleanOrDefault(settingsSection, "Check Blocked Worlds", false)) {
+            if (blockedWorlds.contains(player.getWorld().getName())) {
+                sendConfigurationMessage(player, "World Blocked");
+
+                return false;
+            }
+        }
+
+        if (CoolDown.hasCoolDown(player.getName())) {
+            sendConfigurationMessage(player, "Cooldown");
+
+            return false;
+        }
+
+        int radius = ConfigurationUtility.getIntOrDefault(settingsSection, "Radius", 10);
+        int time = ConfigurationUtility.getIntOrDefault(settingsSection, "Time", 10);
+
+        boolean isGlowed = GlowHandler.glowPlayers(player, radius, time);
+
+        if (!isGlowed) {
+            sendConfigurationMessage(player, "Empty");
+
+            return false;
+        }
+
+        for (String line : ConfigurationUtility.getParsedLines(player, messagesSection, "Glowed",
+                PleasantWallHack.getInstance().isPlaceholderApiSupported())) {
+            player.sendMessage(
+                    line.replace("%radius", String.valueOf(radius))
+                            .replace("%time", String.valueOf(time))
+            );
+        }
+
+        if (ConfigurationUtility.getBooleanOrDefault(settingsSection, "CoolDown.Enabled", true)) {
+            if (!player.hasPermission("pleasantwallhack.bypass")) {
+                CoolDown.addCoolDown(player.getName(), 20L * ConfigurationUtility.getIntOrDefault(settingsSection,
+                        "CoolDown.Time", 30));
+            }
+        }
+
+        return false;
+    }
+
+    private void sendConfigurationMessage(Player player, String key) {
+        for (String line : ConfigurationUtility.getParsedLines(player, messagesSection, key,
+                PleasantWallHack.getInstance().isPlaceholderApiSupported())) {
+            player.sendMessage(line);
+        }
     }
 
 }

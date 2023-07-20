@@ -1,9 +1,8 @@
-package me.mstn.api.nms;
+package me.mstn.plugin.utilities;
 
-import lombok.Getter;
 import org.bukkit.Bukkit;
 
-public enum Version {
+public enum BukkitVersion {
 
     UNDEFINED(0),
     v1_8_R1(1),
@@ -21,13 +20,17 @@ public enum Version {
     v1_16_R1(13),
     v1_16_R2(14),
     v1_16_R3(15),
-    v1_17_R1(16);
+    v1_17_R1(16),
+    v1_18_R1(17),
+    v1_18_R2(18),
+    v1_19_R1(19),
+    v1_19_R2(20);
 
-    private static final Version VERSION;
-    @Getter private final int id;
+    private static final BukkitVersion VERSION;
+    private final int id;
 
     static {
-        Version currentVersion = null;
+        BukkitVersion currentVersion = null;
 
         Package bukkitPackage = Bukkit.getServer().getClass().getPackage();
 
@@ -38,18 +41,22 @@ public enum Version {
                 currentVersion = valueOf(versionName);
             } catch (IllegalArgumentException e) {
                 currentVersion = UNDEFINED;
-                Bukkit.getServer().getLogger().severe("API > The version could not be found, it may be out of date! (Version name: " + versionName + ")");
+                Bukkit.getServer().getLogger().severe("Version could not be found, it may be out of date or not supported! (Version name: " + versionName + ")");
             }
         }
 
         VERSION = currentVersion;
     }
 
-    Version(int id) {
+    BukkitVersion(int id) {
         this.id = id;
     }
 
-    public static Version getCurrent() {
+    public int getId() {
+        return id;
+    }
+
+    public static BukkitVersion getCurrent() {
         return VERSION;
     }
 
