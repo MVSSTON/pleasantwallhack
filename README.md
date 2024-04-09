@@ -30,7 +30,7 @@ Highlight all players within a radius of R-blocks for N-seconds, giving them a g
 
 :wrench: Configuration screenshot:
 
-![Configuration](https://github.com/MVSSTON/pleasantwallhack/blob/master/.local/configuration.png)
+![Configuration](https://raw.githubusercontent.com/MVSSTON/pleasantwallhack/master/.local/configuration.png)
 
 ***
 #### All rights reserved, use for non-commercial purposes only &copy; 2021-2024
