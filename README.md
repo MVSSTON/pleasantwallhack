@@ -1,5 +1,3 @@
-<img align="right" alt="logo" width="64" src="https://emojio.ru/images/apple-m/1f527.png">
-
 # PleasantWallHack
 Absolutely free!
 
@@ -28,11 +26,11 @@ Highlight all players within a radius of R-blocks for N-seconds, giving them a g
 
 ## Demo
 
-[:arrow_forward: How works (Video)](https://i.imgur.com/LDfOypJ.mp4)
+[:arrow_forward: How works (Video)](https://youtu.be/JfIcXIF7WG0)
 
 :wrench: Configuration screenshot:
 
-![Configuration](https://i.imgur.com/odpZFiy.png)
+![Configuration](https://github.com/MVSSTON/pleasantwallhack/blob/master/.local/configuration.png)
 
 ***
-#### All rights reserved, use for non-commercial purposes only &copy; 2021-2023
+#### All rights reserved, use for non-commercial purposes only &copy; 2021-2024
